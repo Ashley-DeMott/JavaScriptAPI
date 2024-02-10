@@ -1,0 +1,113 @@
+body {
+    background-color: aliceblue;
+}
+
+h1, h2, h3 {
+    color: darkblue;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 5px;
+}
+
+#locationSearch {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    margin: 5px;
+}
+
+#locationPrompt {
+    color: darkblue;
+    font-size: 20px;
+}
+
+#userLocation {
+    height: 1.75em;
+    font-size: 16px;
+    resize: none;
+}
+
+.button--submit {
+    height: 1.75em;
+    width: 150px;
+    font-size: 16px;
+    background-color: royalblue;
+    color: white;
+    border: none;
+    margin-left: -5px;
+}
+
+    .button--submit:hover {
+        color: lightblue;
+    }
+
+.error, .error__message {
+    display: none; /* Hide on webpage load */
+    color: red;
+    background-color: white;
+}
+
+#weatherReport {
+    display: flex; /* Hide on webpage load (currenlty styling) */
+    flex-direction: column; /* Direction depends on webpage size */
+}
+
+.day {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 5px);
+    height: 125px;
+    background-color: royalblue;
+    margin: 5px;
+    justify-content: space-between;
+}
+
+.day__info {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 10px);
+    margin: 10px;    
+}
+
+.day__info__dow, .day__info__date {
+    font-size: 16px;
+    height: 1em;
+    color: white;
+    padding: 5px;
+    margin-bottom: 1em;
+}
+
+.day__temps {
+    display: flex;
+    flex-direction: row;
+}
+
+.temp--high, .temp--low {
+    display: flex;
+    width: 75px;
+    height: 75px;
+    background-color: cadetblue;
+    margin: 10px; /* Put in middle of column */
+}
+
+/* Desktop size */
+@media (min-width: 1000px) {
+    #weatherReport {
+        flex-direction: row; /* Display in a row */
+        /* TODO: space around the row, */
+        justify-content: space-around;
+    }
+
+    .day {
+        flex-direction: column;
+        width: 125px;
+        height: 600px; /* Change to window size - header/margins */
+    }
+
+    .day__temps {
+        flex-direction: column;
+    }
+}

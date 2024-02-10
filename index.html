@@ -1,16 +1,124 @@
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather API - JavaScript</title>
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
-  </head>
-  <body>
-  <h1>Weather</h1>
-  
-  <h2>Select/Enter a location</h2>
-  <textarea></textarea>
-  <button class="button--submit">Submit</button>
-  </body>
+</head>
+<body>
+    <h1>Weather 7-Day Forecast</h1>
+    <section id="locationQuery">
+        <!-- Version with each location element in a different input
+        <section id="city">
+            <label id="city__prompt" for="userCity">City </label>
+            <input type="text" id="userCity" required minlenght="1" />
+        </section>
+        <section id="state">
+            <label id="state__prompt" for="userState">State (Abbreviation) </label>
+            <input type="text" id="userState" required minlenght="1" />
+        </section>
+        <section id="country">
+            <label id="country__prompt" for="userCountry">Country?</label>
+            <input type="text" id="userCountry" required minlenght="1" />
+        </section>
+            -->
+        <label id="locationPrompt" for="userCity">Enter a location</label>
+        <input type="text" id="location" required minlenght="1" />
+        <button class="button--submit" onclick="RetriveData()">Submit</button>
+    </section>
+    <section class="error">
+        <p class="error__message" id="connectionError">Cannot connect to (weather API)</p>
+        <p class="error__message" id="API">Please re-check API key</p>
+        <p class="error__message" id="exceedsRequests">Amount of requests for the day exceeded</p>
+        <p class="error__message" id="invalidLocation">Invalid location</p>
+        <p class="error__message" id="unexpectedError">An unexpected error occurred</p>
+    </section>
+    <h2 id="weatherLocation"></h2>
+    <section id="weatherReport">
+        <div class="day">
+            <div class="day__info">
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
+            </div>
+            <div class="day__temps">
+                <!-- TODO: Labels for high/low, number, metric (C/F) -->
+                <h3 class="temp--high"></h3>
+                <h3 class="temp--low"></h3>
+            </div>
+        </div>
+
+        <!-- 7 Days or as many are in the json data recieved -->
+        <div class="day">
+            <!-- Make into ul? -->
+            <div class="day__info">
+                <h2 class="day__info__dow"></h2>
+                <h2 class="day__info__date"></h2>
+            </div>
+            <div class="day__temps">
+                <div class="temp--high"></div>
+                <div class="temp--low"></div>
+            </div>
+        </div>
+        <div class="day">
+            <!-- Make into ul? -->
+            <div class="day__info">
+                <h2 class="day__info__dow"></h2>
+                <h2 class="day__info__date"></h2>
+            </div>
+            <div class="day__temps">
+                <div class="temp--high"></div>
+                <div class="temp--low"></div>
+            </div>
+        </div>
+        <div class="day">
+            <!-- Make into ul? -->
+            <div class="day__info">
+                <h2 class="day__info__dow"></h2>
+                <h2 class="day__info__date"></h2>
+            </div>
+            <div class="day__temps">
+                <div class="temp--high"></div>
+                <div class="temp--low"></div>
+            </div>
+        </div>
+        <div class="day">
+            <!-- Make into ul? -->
+            <div class="day__info">
+                <h2 class="day__info__dow"></h2>
+                <h2 class="day__info__date"></h2>
+            </div>
+            <div class="day__temps">
+                <div class="temp--high"></div>
+                <div class="temp--low"></div>
+            </div>
+        </div>
+        <div class="day">
+            <!-- Make into ul? -->
+            <div class="day__info">
+                <h2 class="day__info__dow"></h2>
+                <h2 class="day__info__date"></h2>
+            </div>
+            <div class="day__temps">
+                <div class="temp--high"></div>
+                <div class="temp--low"></div>
+            </div>
+        </div>
+        <div class="day">
+            <!-- Make into ul? -->
+            <div class="day__info">
+                <h2 class="day__info__dow"></h2>
+                <h2 class="day__info__date"></h2>
+            </div>
+            <div class="day__temps">
+                <div class="temp--high"></div>
+                <div class="temp--low"></div>
+            </div>
+        </div>
+
+
+
+        </div>
+    </section>
+</body>
 </html>
