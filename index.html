@@ -9,23 +9,9 @@
 <body>
     <h1>Weather 7-Day Forecast</h1>
     <section id="locationQuery">
-        <!-- Version with each location element in a different input
-        <section id="city">
-            <label id="city__prompt" for="userCity">City </label>
-            <input type="text" id="userCity" required minlenght="1" />
-        </section>
-        <section id="state">
-            <label id="state__prompt" for="userState">State (Abbreviation) </label>
-            <input type="text" id="userState" required minlenght="1" />
-        </section>
-        <section id="country">
-            <label id="country__prompt" for="userCountry">Country?</label>
-            <input type="text" id="userCountry" required minlenght="1" />
-        </section>
-            -->
-        <label id="locationPrompt" for="userCity">Enter a location</label>
+        <label id="locationPrompt" for="location">Enter a location</label>
         <input type="text" id="location" required minlenght="1" />
-        <button class="button--submit" onclick="RetriveData()">Submit</button>
+        <button class="button--submit" onclick="fetchData()">Submit</button>
     </section>
     <section class="error">
         <p class="error__message" id="connectionError">Cannot connect to (weather API)</p>
@@ -42,83 +28,133 @@
                 <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <!-- TODO: Labels for high/low, number, metric (C/F) -->
-                <h3 class="temp--high"></h3>
-                <h3 class="temp--low"></h3>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
         </div>
 
-        <!-- 7 Days or as many are in the json data recieved -->
+        <!-- 7 Day forecast -->
         <div class="day">
-            <!-- Make into ul? -->
             <div class="day__info">
-                <h2 class="day__info__dow"></h2>
-                <h2 class="day__info__date"></h2>
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <div class="temp--high"></div>
-                <div class="temp--low"></div>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
-        </div>
-        <div class="day">
-            <!-- Make into ul? -->
+        </div><div class="day">
             <div class="day__info">
-                <h2 class="day__info__dow"></h2>
-                <h2 class="day__info__date"></h2>
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <div class="temp--high"></div>
-                <div class="temp--low"></div>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
-        </div>
-        <div class="day">
-            <!-- Make into ul? -->
+        </div><div class="day">
             <div class="day__info">
-                <h2 class="day__info__dow"></h2>
-                <h2 class="day__info__date"></h2>
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <div class="temp--high"></div>
-                <div class="temp--low"></div>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
-        </div>
-        <div class="day">
-            <!-- Make into ul? -->
+        </div><div class="day">
             <div class="day__info">
-                <h2 class="day__info__dow"></h2>
-                <h2 class="day__info__date"></h2>
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <div class="temp--high"></div>
-                <div class="temp--low"></div>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
-        </div>
-        <div class="day">
-            <!-- Make into ul? -->
+        </div><div class="day">
             <div class="day__info">
-                <h2 class="day__info__dow"></h2>
-                <h2 class="day__info__date"></h2>
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <div class="temp--high"></div>
-                <div class="temp--low"></div>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
-        </div>
-        <div class="day">
-            <!-- Make into ul? -->
+        </div><div class="day">
             <div class="day__info">
-                <h2 class="day__info__dow"></h2>
-                <h2 class="day__info__date"></h2>
+                <h2 class="day__info__dow" id="day_one">DAY OF WEEK</h2>
+                <h2 class="day__info__date">DATE MONTH YEAR</h2>
             </div>
             <div class="day__temps">
-                <div class="temp--high"></div>
-                <div class="temp--low"></div>
+                <!-- TODO: metric depending on data, currenlty just Fahrenheit -->
+                <section class="temp--high">
+                    <h4 class="temp--high__label">High</h4>
+                    <h3 class="temp--high__value">--.-</h3>
+                    <h4 class="temp--high__unit">&degF</h4>
+                </section>
+                <section class="temp--low">
+                    <h4 class="temp--low__label">Low</h4>
+                    <h3 class="temp--low__value">--.-</h3>
+                    <h4 class="temp--low__unit">&degF</h4>
+                </section>
             </div>
         </div>
 
-
-
-        </div>
     </section>
+    <div style="width: calc(100% - 10px);"><canvas id="weatherChart"></canvas></div>
+    <script type="module" src="chartMaker.js" defer></script>
 </body>
 </html>

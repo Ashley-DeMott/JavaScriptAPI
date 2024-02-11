@@ -1,45 +1,42 @@
-// Create a request for the Weather API (Put in API key = 6X6AN44CEB6825G9TBEL9H235, 1000 daily requests)
-// Learn how to create a requrest and handle the response/incoming data
-
-// Find common API requests
+// Writing requests for the weather API
 // https://www.visualcrossing.com/resources/blog/five-easy-weather-api-calls-to-get-the-weather-data-you-need/
 
+const DOW = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 // Process the json weather data, updating the respective HTML elements
-function processWeatherData(response) {
-    var location = response.resolvedAddress;
+function displayData(response) {
     var days = response.days;
 
-    /* Add data to each section - generate or fill? (requesting 7 days always, or different numbers? <-- currently always 7, fill*/
+    // Get the starting DOW
+    // TODO: Assumes data starts with user's current date
+    var today = new Date();
+    var currentDOW = today.getDay();
 
-    // TODO: Add a location HTML element to display:
-    // "Weather for " + location
+    // Get the location from the response
     var weatherLocation = document.getElementById("weatherLocation");
     weatherLocation.innerHTML = "Weather for " + response.resolvedAddress;
 
-    // For each day in the HTML,
+    // For each day in the HTML, (Only 7, but requests 15)
+    // TODO: Generate HTML sections based on number of days in response
     var day_elements = document.getElementsByClassName("day");
-    for (let i = 0; i < days.length; i++) {
+    for (let i = 0; i < day_elements.length; i++) {
         // Insert the retrieved datetime into the day's time/date
         var date = day_elements[i].querySelector(".day__info").querySelector(".day__info__date");
         date.innerHTML = days[i].datetime;
 
-        // Insert the retrieved dow into the day's dow
+        // Put the current day of the week TODO: Calculate starting dow from the response's first day's date/each date separately
         var dow = day_elements[i].querySelector(".day__info").querySelector(".day__info__dow");
-        dow.innerHTML = days[i].dow;
+        dow.innerHTML = DOW[currentDOW];
+        currentDOW = (currentDOW + 1) % 7; // Move to next dow, ensuring value stays between 0 - 6
 
         // Insert the retrieved tempmax into the day's high temp
-        var highTemp = day_elements[i].querySelector(".day__temps").querySelector(".temp--high");
+        var highTemp = day_elements[i].querySelector(".day__temps").querySelector(".temp--high").querySelector(".temp--high__value");
         highTemp.innerHTML = days[i].tempmax;
 
         // Insert the retrieved tempmin into the day's low temp
-        var lowTemp = day_elements[i].querySelector(".day__temps").querySelector(".temp--low");
+        var lowTemp = day_elements[i].querySelector(".day__temps").querySelector(".temp--low").querySelector(".temp--low__value");
         lowTemp.innerHTML = days[i].tempmin;
     }
-    /*
-    console.log("Location: " + location);
-    for (var i = 0; i < days.length; i++) {
-        console.log(days[i].datetime + ": tempmax=" + days[i].tempmax + ", tempmin=" + days[i].tempmin);
-    }*/
 }
 
 // The ids for the HTML elements representing error messages
@@ -54,7 +51,7 @@ function hideErrors() {
 }
 
 // Format a string for use in a URL
-function removeSpace(string) {
+function removeSpaces(string) {
     // Any spaces must be replaced with % 20, commas with % 2C
     string.replace(/\s+/g, "%20");
     string.replace(',', "%2C");
@@ -63,28 +60,21 @@ function removeSpace(string) {
 
 const API_KEY = "6X6AN44CEB6825G9TBEL9H235"; // Limit of 1000 daily requests
 
-//
-function RetriveData() {
-    hideErrors(); // Hide all error messages, new request
+// Retrieve weather data related to the user's entered location
+function fetchData() {
+    hideErrors(); // Hide all error messages, a new request
 
-    /* As long as all spaces/commas have been removed, API can handle singular location
-    // Get all the user entered data
-    var city = document.getElementById("userCity").value;
-    var state = document.getElementById("userState").value;
-    var country = document.getElementById("userCountry").value;
-    */
-
-    // Get the user-inputed location
+    // Get the user entered location
     var location = document.getElementById("location").value;
 
     // Build the request, 
     var request = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/"
-        + removeSpace(location) + "?unitGroup=" + "us" + "&key=" + API_KEY + "&contentType=json";
-    /* TODO: Request Building
-        Different Format - Allow longitude and latitudes
+        + removeSpaces(location) + "?unitGroup=" + "us" + "&key=" + API_KEY + "&contentType=json";
+    /* TODO: Building more types of requests
+        Different Formats - Allow longitude and latitudes
         Time - Start and end date
           Date Range example: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/London,UK/2020-10-01/2020-12-31?key=YOUR_API_KEY 
-        Temperature units - unitGroup=us/metric (Fahrenheit or Celcius)
+        Temperature units - unitGroup=us/metric (Fahrenheit or Celcius) (would also need to be reflected on the page)
     */
 
     // Get the parent HTML element where the data will be displayed (to show/hide)
@@ -101,12 +91,11 @@ function RetriveData() {
             throw response;
         }
         return response.json(); // parse the result as JSON
-
-    }).then(response => {
-        // response now contains parsed JSON ready for use
-        processWeatherData(response); // Put the weather data into the HTML elements
+    }).then(response => { // response now contains parsed JSON ready for use
+        console.log(response);
         weatherForecast.style.display = "flex"; // Show the Weather Forecast
-
+        displayData(response); // Put the weather data into the HTML elements
+        
     }).catch((errorResponse) => {
         console.log(errorResponse); // The entire contents of the error
         if (errorResponse.text) {
@@ -117,12 +106,12 @@ function RetriveData() {
                 // Hide the weatherForecast, there is no valid data to show
                 weatherForecast.style.display = "none";
 
-                /* TODO: Error Handling
+                /* TODO: More Error Handling
                  (400) Bad API Request:Invalid location parameter value.
-                 https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Rexburg%2CNY?unitGroup=us&key=6X6AN44CEB6825G9TBEL9H235&contentType=json
+                 Example request: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/Rexburg%2CNY?unitGroup=us&key=6X6AN44CEB6825G9TBEL9H235&contentType=json
                  
                  (401) No API key or session found. Please verify that your API key parameter is correct.
-                 https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/
+                 Example request: https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/
                 */
 
                 // Figure out which error message to display
@@ -140,10 +129,11 @@ function RetriveData() {
                 }
                 else {
                     // Unexpected/not specifed error
+                    console.log("Unhandled " + errorResponse.status);
                     error = document.getElementById(ErrorIDs[0]);
                 }
 
-                // Display the error
+                // Display the specified error
                 error.style.display = "flex";
             })
             var errorCode = errorResponse.status;
