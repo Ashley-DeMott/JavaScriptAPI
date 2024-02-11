@@ -4,7 +4,7 @@ A project that displays data from a weather API on a page using JavaScript. The 
 
 My goal was to learn how to use JavaScript and APIs for developing websites. This taught me a lot about functions, and how HTML elements can be found by their class name or id. I also learned how fetch statements can be chained together with many then and catch statements.
 
-[Software Demo Video - TBD]()
+[Software Demo Video](https://youtu.be/TlE9G6kdvtw?si=1Q8u_X8fObZY4qGL)
 
 ## Development Environment
 - Visual Studio Code for editing HTML, CSS, and JS files
