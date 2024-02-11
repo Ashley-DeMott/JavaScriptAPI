@@ -40,7 +40,7 @@ function displayData(response) {
 }
 
 // The ids for the HTML elements representing error messages
-const ErrorIDs = ["unexpectedError", "connectionError", "exceedsRequests", "invalidLocation", "API"];
+const ErrorIDs = ["unexpectedError", "connectionError", "custom", "invalidLocation", "API"];
 
 // Hide all HTML elements with the specified error IDs
 function hideErrors() {
@@ -48,6 +48,11 @@ function hideErrors() {
         var error = document.getElementById(ErrorIDs[i]);
         error.style.display = "none";
     }
+}
+
+function hideWeatherReport() {
+    document.getElementById("weatherReport").style.display = "none";
+    document.getElementById("weatherLocation").style.display = "none";
 }
 
 // Format a string for use in a URL
@@ -94,8 +99,9 @@ function fetchData() {
     }).then(response => { // response now contains parsed JSON ready for use
         console.log(response);
         weatherForecast.style.display = "flex"; // Show the Weather Forecast
+        document.getElementById("weatherLocation").style.display = "flex"; // Show the weather title (TODO: Rearrange HTML)
         displayData(response); // Put the weather data into the HTML elements
-        
+
     }).catch((errorResponse) => {
         console.log(errorResponse); // The entire contents of the error
         if (errorResponse.text) {
@@ -104,7 +110,7 @@ function fetchData() {
                 console.log(errorMessage);
 
                 // Hide the weatherForecast, there is no valid data to show
-                weatherForecast.style.display = "none";
+                hideWeatherReport();
 
                 /* TODO: More Error Handling
                  (400) Bad API Request:Invalid location parameter value.
@@ -116,21 +122,31 @@ function fetchData() {
 
                 // Figure out which error message to display
                 var error;
+                var statusCode = errorResponse.status;
 
-                // If unauthorized,
-                if (errorResponse.status == 401) {
-                    // Show API error to the user
-                    error = document.getElementById(ErrorIDs[4]);
-                }
-                // If bad request (invalid location, not formatted right)
-                else if (errorResponse.status == 400) {
-                    // Show invalidLocation error to the user
-                    error = document.getElementById(ErrorIDs[3]);
-                }
-                else {
-                    // Unexpected/not specifed error
-                    console.log("Unhandled " + errorResponse.status);
-                    error = document.getElementById(ErrorIDs[0]);
+                switch (statusCode) {
+                    case 400: // If bad request (invalid location, not formatted right)
+                        // Show invalidLocation error to the user
+                        error = document.getElementById(ErrorIDs[3]);
+                        break;
+                    case 401: // If unauthorized,
+                        // Not accessible, Show API error to the user
+                        error = document.getElementById(ErrorIDs[4]);
+                        break;
+                    // A connection-based error
+                    case 408:
+                    case 500:
+                    case 502:
+                    case 504:
+                        // Specify type of error to the user
+                        // TODO: Could do this for all
+                        error = document.getElementById(ErrorIDs[2]);
+                        error.innerText = errorResponse.text;
+                        break;
+                    default:
+                        // Unexpected/not specifed error
+                        console.log("Unhandled " + errorResponse.status);
+                        error = document.getElementById(ErrorIDs[0]);
                 }
 
                 // Display the specified error
